@@ -10,14 +10,14 @@
   <header class="topbar">
     <div>
       <h1>MTA B&amp;T Command Center</h1>
-      <p class="badge">Not real-time • Refreshed: 2026-05-19 12:00 UTC • Data through: 2026-05-17</p>
+      <p class="badge">Not real-time • Refreshed: <span id="last-refresh">Never</span> • Data through: <span id="data-through">—</span></p>
     </div>
     <div class="header-controls">
-      <select><option>Latest full week</option><option>Latest full day</option><option>Custom range</option></select>
-      <select><option>All Facilities</option></select>
-      <select><option>All Directions</option></select>
-      <select><option>All Vehicle Classes</option></select>
-      <select><option>All Payment Types</option></select>
+      <select id="date-window"><option value="latest_week">Latest full week</option><option value="latest_day">Latest full day</option><option value="custom">Custom range</option></select>
+      <select id="facility-filter"><option value="">All Facilities</option></select>
+      <select id="direction-filter"><option value="">All Directions</option></select>
+      <select id="vehicle-filter"><option value="">All Vehicle Classes</option></select>
+      <select id="payment-filter"><option value="">All Payment Types</option></select>
     </div>
   </header>
 
@@ -30,6 +30,7 @@
     </nav>
 
     <main>
+      <section id="api-status" class="panel empty-state" hidden>Loading dataset…</section>
       <section id="exec" class="page active">
         <div class="kpi-grid">
           <div class="card"><h3>Total Crossings</h3><p>5.1M</p></div>
