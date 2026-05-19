@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MTA B&T Command Center</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>MTA B&amp;T Command Center</h1>
+      <p class="badge">Not real-time • Refreshed: 2026-05-19 12:00 UTC • Data through: 2026-05-17</p>
+    </div>
+    <div class="header-controls">
+      <select><option>Latest full week</option><option>Latest full day</option><option>Custom range</option></select>
+      <select><option>All Facilities</option></select>
+      <select><option>All Directions</option></select>
+      <select><option>All Vehicle Classes</option></select>
+      <select><option>All Payment Types</option></select>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="sidenav">
+      <button class="nav-btn active" data-page="exec">1) Executive Command View</button>
+      <button class="nav-btn" data-page="comparison">2) Facility Comparison</button>
+      <button class="nav-btn" data-page="detail">3) Facility Detail</button>
+      <button class="nav-btn" data-page="payment">4) Payment Monitor</button>
+    </nav>
+
+    <main>
+      <section id="exec" class="page active">
+        <div class="kpi-grid">
+          <div class="card"><h3>Total Crossings</h3><p>5.1M</p></div>
+          <div class="card"><h3>WoW %</h3><p>-2.3%</p></div>
+          <div class="card"><h3>YoY %</h3><p>-4.8%</p></div>
+          <div class="card"><h3>E-ZPass %</h3><p>88.4%</p></div>
+          <div class="card"><h3>TBM %</h3><p>11.6%</p></div>
+          <div class="card"><h3>Top Mover</h3><p>RFK Bridge</p></div>
+          <div class="card"><h3>Biggest Drop</h3><p>Verrazzano</p></div>
+          <div class="card"><h3>Data Through</h3><p>2026-W20</p></div>
+        </div>
+        <div class="split2">
+          <div class="panel"><h2>A) Weekly Trend (104 weeks)</h2><div class="chart-placeholder"></div></div>
+          <div class="panel"><h2>B) WoW / YoY Delta (last 16 weeks)</h2><div class="chart-placeholder"></div></div>
+        </div>
+        <div class="panel"><h2>C) Biggest Facility Movers</h2><table><thead><tr><th>Facility</th><th>Latest Week Vol</th><th>WoW %</th><th>YoY %</th><th>Abs Δ YoY</th><th>EZP share</th><th>TBM</th></tr></thead><tbody><tr><td>Verrazzano</td><td>1.1M</td><td>-3.5%</td><td>-8.1%</td><td>-96k</td><td>90%</td><td>10%</td></tr><tr><td>RFK</td><td>780k</td><td>+1.2%</td><td>-0.6%</td><td>-4k</td><td>84%</td><td>16%</td></tr></tbody></table></div>
+      </section>
+
+      <section id="comparison" class="page">
+        <div class="split2">
+          <div class="panel"><h2>A) Bubble Scatter</h2><div class="chart-placeholder"></div></div>
+          <div class="panel"><h2>B) Facility Heatmap</h2><div class="chart-placeholder"></div></div>
+        </div>
+        <div class="panel"><h2>C) Auto Callouts</h2><ul><li>"Queens Midtown down 6.2% YoY; drop concentrated in weekday AM inbound"</li><li>"Throgs Neck up 2.1% YoY; gain driven by PM outbound passenger vehicles"</li></ul></div>
+      </section>
+
+      <section id="detail" class="page">
+        <div class="panel"><h2>Facility Selector: Verrazzano-Narrows Bridge</h2></div>
+        <div class="kpi-grid mini">
+          <div class="card"><h3>Latest Week Vol</h3><p>1.1M</p></div><div class="card"><h3>YoY % (Abs Δ)</h3><p>-8.1% (-96k)</p></div><div class="card"><h3>WoW %</h3><p>-3.5%</p></div><div class="card"><h3>EZP% (pp YoY)</h3><p>90% (+0.4pp)</p></div><div class="card"><h3>TBM%</h3><p>10%</p></div>
+        </div>
+        <div class="split2"><div class="panel"><h2>A) Weekly Volume Trend</h2><div class="chart-placeholder"></div></div><div class="panel"><h2>B) Week-of-Year YoY Comparison</h2><div class="chart-placeholder"></div></div></div>
+        <div class="panel"><h2>C) Mix & Pattern Decomposition</h2><div class="split3"><div class="chart-placeholder short"></div><div class="chart-placeholder short"></div><div class="chart-placeholder short"></div></div></div>
+        <div class="panel"><h2>D) Change Drivers Table</h2><table><thead><tr><th>Dimension</th><th>Current</th><th>Prior</th><th>Δ Abs</th><th>Δ %</th><th>Contribution %</th></tr></thead><tbody><tr><td>Passenger vehicles</td><td>920k</td><td>1.0M</td><td>-80k</td><td>-7.9%</td><td>83%</td></tr><tr><td>AM Peak</td><td>340k</td><td>390k</td><td>-50k</td><td>-12.8%</td><td>52%</td></tr></tbody></table></div>
+      </section>
+
+      <section id="payment" class="page">
+        <div class="kpi-grid mini"><div class="card"><h3>EZP Share</h3><p>88.4%</p></div><div class="card"><h3>EZP YoY pp</h3><p>+0.6pp</p></div><div class="card"><h3>TBM Share</h3><p>11.6%</p></div><div class="card"><h3>TBM YoY pp</h3><p>-0.6pp</p></div><div class="card"><h3>Largest shift fac</h3><p>Bronx-Whitestone</p></div></div>
+        <div class="split2"><div class="panel"><h2>A) 100% Stacked Weekly Bars</h2><div class="chart-placeholder"></div></div><div class="panel"><h2>B) Facility Small Multiples</h2><div class="chart-placeholder"></div></div></div>
+        <div class="panel"><h2>C) Payment Shift Table</h2><table><thead><tr><th>Facility</th><th>EZP %</th><th>TBM %</th><th>EZP YoY pp</th><th>EZP WoW pp</th><th>Vol impacted</th></tr></thead><tbody><tr><td>Bronx-Whitestone</td><td>86%</td><td>14%</td><td>+1.2pp</td><td>+0.1pp</td><td>9.2k</td></tr></tbody></table></div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">Data completeness: 99.3% • Missing records: 124 • Last pipeline run: ✅ Success</footer>
+  <script src="script.js"></script>
+</body>
+</html>
