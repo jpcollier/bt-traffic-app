@@ -1,0 +1,16 @@
+:root { --bg:#0b1220; --panel:#131e33; --text:#e8eefc; --muted:#9db0d3; --accent:#3da9fc; }
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+.topbar{display:flex;justify-content:space-between;gap:16px;padding:16px 20px;border-bottom:1px solid #203252;background:#0f1728;position:sticky;top:0;z-index:3}
+.topbar h1{margin:0 0 6px;font-size:1.25rem}.badge{margin:0;color:var(--muted);font-size:.9rem}
+.header-controls{display:grid;grid-template-columns:repeat(3,minmax(140px,1fr));gap:8px;align-content:start}.header-controls select{background:#13213d;color:var(--text);border:1px solid #2c446c;border-radius:8px;padding:8px}
+.layout{display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 132px)}
+.sidenav{border-right:1px solid #203252;padding:14px;display:flex;flex-direction:column;gap:8px;background:#0d172b}
+.nav-btn{all:unset;background:#12203a;border:1px solid #26426f;padding:10px 12px;border-radius:8px;cursor:pointer}.nav-btn.active{background:var(--accent);color:#001329;font-weight:700}
+main{padding:16px;display:flex;flex-direction:column;gap:14px}.page{display:none;gap:14px;flex-direction:column}.page.active{display:flex}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:10px}.kpi-grid.mini{grid-template-columns:repeat(5,minmax(140px,1fr))}
+.card,.panel{background:var(--panel);border:1px solid #23395f;border-radius:10px;padding:12px}.card h3{margin:0;color:var(--muted);font-size:.85rem}.card p{margin:8px 0 0;font-size:1.2rem;font-weight:700}
+.split2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.split3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.panel h2{margin:0 0 10px;font-size:1rem}.chart-placeholder{height:180px;border:1px dashed #3d5d90;border-radius:8px;background:linear-gradient(145deg,#0f1b32,#16284a)}.chart-placeholder.short{height:120px}
+table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #2a4068;text-align:left}th{color:var(--muted);font-weight:600;font-size:.85rem}
+.footer{padding:10px 20px;border-top:1px solid #203252;color:var(--muted);background:#0f1728}
+@media (max-width:1200px){.layout{grid-template-columns:1fr}.sidenav{flex-direction:row;overflow:auto}.kpi-grid,.kpi-grid.mini,.split2,.split3,.header-controls{grid-template-columns:1fr}}
