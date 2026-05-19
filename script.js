@@ -23,19 +23,17 @@ const btDataApi = (() => {
 
   const dateFmt = (date) => date.toISOString().slice(0, 10);
 
-  const latestFullWindow = (windowType) => {
-    const now = new Date();
-    const utcDay = now.getUTCDay();
-    const latestFullDayEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  const latestFullWindow = (windowType, anchorDateLike) => {
+    const anchor = anchorDateLike ? new Date(`${anchorDateLike}T00:00:00Z`) : new Date();
+    const anchorUtcDate = Number.isNaN(anchor.getTime()) ? new Date() : anchor;
 
     if (windowType === 'latest_day') {
-      const start = new Date(latestFullDayEnd);
-      start.setUTCDate(start.getUTCDate() - 1);
-      return { startDate: dateFmt(start), endDate: dateFmt(start) };
+      return { startDate: dateFmt(anchorUtcDate), endDate: dateFmt(anchorUtcDate) };
     }
 
-    const daysSinceWeekEnd = utcDay === 0 ? 7 : utcDay;
-    const weekEnd = new Date(latestFullDayEnd);
+    const weekEnd = new Date(anchorUtcDate);
+    const utcDay = weekEnd.getUTCDay();
+    const daysSinceWeekEnd = utcDay === 0 ? 0 : utcDay;
     weekEnd.setUTCDate(weekEnd.getUTCDate() - daysSinceWeekEnd);
     const weekStart = new Date(weekEnd);
     weekStart.setUTCDate(weekStart.getUTCDate() - 6);
@@ -62,6 +60,21 @@ const btDataApi = (() => {
     qs.set('$limit', String(query.limit ?? 250));
     qs.set('$offset', String(query.offset ?? 0));
     return qs;
+  };
+
+
+  let latestDatePromise;
+  const fetchLatestDate = async () => {
+    if (!latestDatePromise) {
+      const qs = new URLSearchParams();
+      qs.set('$select', `max(${FIELD_MAP.date}) as latest_date`);
+      const url = `${ENDPOINT}?${qs.toString()}`;
+      latestDatePromise = fetchWithRetry(url, { headers: { Accept: 'application/json' } })
+        .then(response => response.json())
+        .then(rows => rows?.[0]?.latest_date || null)
+        .catch(() => null);
+    }
+    return latestDatePromise;
   };
 
   const shouldRetry = (status) => status === 408 || status === 429 || status >= 500;
@@ -95,7 +108,7 @@ const btDataApi = (() => {
     return { records: Array.isArray(records) ? records : [], requestUrl: url, fetchedAt: new Date().toISOString() };
   };
 
-  return { fetchDataset, latestFullWindow, fieldMap: FIELD_MAP };
+  return { fetchDataset, latestFullWindow, fetchLatestDate, fieldMap: FIELD_MAP };
 })();
 
 const metrics = (() => {
@@ -336,8 +349,8 @@ const updateStatus = (message, isError = false) => {
 };
 const hideStatus = () => { ui.status.hidden = true; ui.status.classList.remove('error'); };
 const toDisplayDateTime = (iso) => new Date(iso).toISOString().replace('T', ' ').replace('.000Z', ' UTC');
-const buildRequestState = () => {
-  const defaults = btDataApi.latestFullWindow(controls.dateWindow.value);
+const buildRequestState = (latestDate) => {
+  const defaults = btDataApi.latestFullWindow(controls.dateWindow.value, latestDate);
   return { ...defaults, facility: controls.facility.value || undefined, direction: controls.direction.value || undefined, vehicleClass: controls.vehicleClass.value || undefined, paymentType: controls.paymentType.value || undefined, orderBy: 'date DESC, hour DESC', limit: 250, offset: 0 };
 };
 
@@ -357,7 +370,8 @@ const refreshData = async () => {
   showAllPanels('loading', 'Loading panel data…');
 
   try {
-    const query = buildRequestState();
+    const latestDate = await btDataApi.fetchLatestDate();
+    const query = buildRequestState(latestDate);
     const { records, fetchedAt } = await btDataApi.fetchDataset(query);
     ui.lastRefresh.textContent = toDisplayDateTime(fetchedAt);
     ui.dataThrough.textContent = records[0]?.date ?? 'No rows returned';
