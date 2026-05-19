@@ -158,6 +158,11 @@ const buildRequestState = () => {
 };
 
 const refreshData = async () => {
+  if (window.location.protocol === 'file:') {
+    updateStatus('This app cannot call the NY Open Data API from a file:// URL. Start a local web server (example: "python -m http.server 8000") and open http://localhost:8000 instead.', true);
+    return;
+  }
+
   updateStatus('Loading dataset…');
   try {
     const query = buildRequestState();
