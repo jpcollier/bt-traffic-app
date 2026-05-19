@@ -11,7 +11,7 @@ navButtons.forEach(btn => {
 });
 
 const btDataApi = (() => {
-  const ENDPOINT = 'https://data.cityofnewyork.us/resource/ebfx-2m7v.json';
+  const ENDPOINT = 'https://data.ny.gov/resource/ebfx-2m7v.json';
   const FIELD_MAP = {
     date: 'date',
     hour: 'hour',
